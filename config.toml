@@ -1,0 +1,31 @@
+[server]
+bind_address = "0.0.0.0"
+port = 8080
+worker_threads = 0  # 0 = auto-detect CPU cores
+
+[queue]
+input_capacity = 100000
+output_capacity = 100000
+batch_size = 1000
+
+[processing]
+max_workers = 0  # 0 = auto-detect CPU cores
+worker_idle_timeout_ms = 10
+processing_timeout_ms = 1000
+
+[metrics]
+enable_metrics = true
+reporting_interval_sec = 5
+export_prometheus = true
+prometheus_port = 9090
+
+[logging]
+level = "info"
+format = "json"
+file_path = "logs/trading-engine.log"
+max_file_size_mb = 100
+max_files = 10
+
+[serialization]
+compression_enabled = false
+validate_checksums = true

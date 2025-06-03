@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+  trading-engine:
+    build: .
+    ports:
+      - "8080:8080"
+      - "9090:9090"
+    environment:
+      - RUST_LOG=info
+      - RUST_BACKTRACE=1
+    volumes:
+      - ./logs:/app/logs
+      - ./config.toml:/app/config.toml
+    restart: unless-stopped
+    
+  prometheus:
+    image: prom/prometheus:latest
+    ports:
+      - "9091:9090"
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/etc/prometheus/console_libraries'
+      - '--web.console.templates=/etc/prometheus/consoles'
+    
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    volumes:
+      - grafana-storage:/var/lib/grafana
+
+volumes:
+  grafana-storage:

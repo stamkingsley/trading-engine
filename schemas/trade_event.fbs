@@ -1,0 +1,29 @@
+namespace TradeEvents;
+
+enum EventType : byte {
+    OrderPlaced = 0,
+    OrderCancelled = 1,
+    OrderFilled = 2,
+    TradeExecuted = 3,
+    PriceUpdate = 4
+}
+
+enum OrderSide : byte {
+    Buy = 0,
+    Sell = 1
+}
+
+table TradeEvent {
+    event_id: string;
+    timestamp: uint64;
+    event_type: EventType;
+    symbol: string;
+    price: double;
+    quantity: double;
+    order_id: string;
+    side: OrderSide;
+    user_id: string;
+    exchange_id: string;
+}
+
+root_type TradeEvent;
